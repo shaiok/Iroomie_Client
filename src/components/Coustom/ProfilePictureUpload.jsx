@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { UserRound, X } from "lucide-react";
 
-export default function ProfilePictureUpload({ onChange }) {
-  const [img, setImg] = useState(null);
+export default function ProfilePictureUpload({ onChange , currentImage}) {
+  const [img, setImg] = useState(currentImage || null);
   const [file, setFile] = useState(null);
 
   const handleUpload = (event) => {
@@ -34,7 +34,7 @@ export default function ProfilePictureUpload({ onChange }) {
       <label
         className="flex cursor-pointer flex-col items-center justify-center 
         border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100
-        rounded-full w-32 h-32 lg:w-64 lg:h-64 relative"
+        rounded-full w-24 h-24 sm:w-36 sm:h-36 relative"
       >
         {img ? (
           <>

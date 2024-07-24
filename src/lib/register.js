@@ -351,92 +351,76 @@ export const questions = [
   },
 ];
 
-
 export const questionsTest = [
   {
-    category: "Lifestyle",
-    questions: [
-      {
-        id: "fitnessAndExerciseLevel",
-        question: "How often do you exercise?",
-        answers: [
-          "What's exercise?",
-          "I work out occasionally",
-          "I exercise a few times a week",
-          "I'm a regular at the gym",
-          "I'm a fitness fanatic",
-        ],
-      },
-      {
-        id: "sleepingPatterns",
-        question: "What are your sleeping patterns?",
-        answers: [
-          "I'm in bed by 9pm sharp",
-          "I'm an early bird",
-          "I keep a fairly regular sleep schedule",
-          "I'm a bit of a night owl",
-          "I have a very erratic sleep schedule",
-        ],
-      },
+    id: "fitnessAndExerciseLevel",
+    question: "How often do you exercise?",
+    answers: [
+      "What's exercise?",
+      "I work out occasionally",
+      "I exercise a few times a week",
+      "I'm a regular at the gym",
+      "I'm a fitness fanatic",
     ],
   },
   {
-    category: "Habits",
-    questions: [
-      {
-        id: "cleanlinessLevel",
-        question: "How clean do you keep your living space?",
-        answers: [
-          "My room is a disaster zone",
-          "I clean when I have to",
-          "I tidy up regularly",
-          "I'm a neat freak",
-          "I'm borderline OCD about cleanliness",
-        ],
-      },
-      {
-        id: "cleanlinessInCommonAreas",
-        question: "How do you maintain cleanliness in common areas?",
-        answers: [
-          "What's cleaning?",
-          "I'll clean when it's my turn",
-          "I do my part to keep things tidy",
-          "I'm always cleaning up after others",
-          "I'm the unofficial cleaning police",
-        ],
-      },
+    id: "sleepingPatterns",
+    question: "What are your sleeping patterns?",
+    answers: [
+      "I'm in bed by 9pm sharp",
+      "I'm an early bird",
+      "I keep a fairly regular sleep schedule",
+      "I'm a bit of a night owl",
+      "I have a very erratic sleep schedule",
     ],
   },
-  {
-    category: "Personality",
-    questions: [
-      {
-        id: "socialBehavior",
-        question: "How social are you?",
-        answers: [
-          "I'm a hermit",
-          "I enjoy small gatherings",
-          "I like a balance of alone time and socializing",
-          "I'm always up for a party",
-          "I'm the life of the party",
-        ],
-      },
-      {
-        id: "politicalViews",
-        question: "What are your political views?",
-        answers: [
-          "I don't really follow politics",
-          "I lean a bit to the left or right",
-          "I'm pretty moderate",
-          "I have strong political views",
-          "I'm an activist",
-        ],
-      },
-    ],
-  },
- 
-];
 
+  {
+    id: "cleanlinessLevel",
+    question: "How clean do you keep your living space?",
+    answers: [
+      "My room is a disaster zone",
+      "I clean when I have to",
+      "I tidy up regularly",
+      "I'm a neat freak",
+      "I'm borderline OCD about cleanliness",
+    ],
+  },
+  {
+    id: "cleanlinessInCommonAreas",
+    question: "How do you maintain cleanliness in common areas?",
+    answers: [
+      "What's cleaning?",
+      "I'll clean when it's my turn",
+      "I do my part to keep things tidy",
+      "I'm always cleaning up after others",
+      "I'm the unofficial cleaning police",
+    ],
+  },
+
+  {
+    id: "socialBehavior",
+    question: "How social are you?",
+    answers: [
+      "I'm a hermit",
+      "I enjoy small gatherings",
+      "I like a balance of alone time and socializing",
+      "I'm always up for a party",
+      "I'm the life of the party",
+    ],
+  },
+  {
+    id: "politicalViews",
+    question: "What are your political views?",
+    answers: [
+      "I don't really follow politics",
+      "I lean a bit to the left or right",
+      "I'm pretty moderate",
+      "I have strong political views",
+      "I'm an activist",
+    ],
+  },
+];
 
 export const importanceMap = {
   1: "Not a Priority: No biggie.",
@@ -456,8 +440,3 @@ export const questionsArray = questions.flatMap((category) =>
 );
 
 export const steps = questions.map((category) => category.category);
-
-
-
-
-

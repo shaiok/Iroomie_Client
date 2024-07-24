@@ -1,21 +1,5 @@
 export const hobbiesList = {
-  "Sports & Fitness": [
-    "Running",
-    "Swimming",
-    "Cycling",
-    "Weightlifting",
-    "Yoga",
-    "Pilates",
-    "Basketball",
-    "Soccer",
-    "Tennis",
-    "Golf",
-    "Hiking",
-    "Rock Climbing",
-    "Skiing",
-    "Snowboarding",
-    "Surfing",
-  ],
+  
   "Arts & Crafts": [
     "Painting",
     "Drawing",
@@ -245,3 +229,66 @@ export const occupationList = [
   { title: "Pilot", category: "Transportation" },
 ];
 
+export const musicGenresList = {
+  "Popular": [
+    "Pop", "Rock", "Hip Hop", "R&B", "Country", "EDM", "Latin"
+  ],
+  "Classical & Jazz": [
+    "Classical", "Jazz", "Blues", "Opera"
+  ],
+  "World & Folk": [
+    "World Music", "Folk", "Reggae", "Afrobeat"
+  ],
+  "Electronic": [
+    "Techno", "House", "Drum and Bass", "Ambient"
+  ],
+  "Metal & Punk": [
+    "Heavy Metal", "Punk Rock", "Hardcore"
+  ],
+  "Other": [
+    "Indie", "Alternative", "Funk", "Soul", "Gospel"
+  ]
+};
+
+
+export const movieGenresList = {
+  "Action & Adventure": [
+    "Action", "Adventure", "Superhero", "Spy", "Martial Arts"
+  ],
+  "Comedy": [
+    "Romantic Comedy", "Slapstick", "Satire", "Black Comedy"
+  ],
+  "Drama": [
+    "Historical Drama", "Melodrama", "Psychological Drama", "Legal Drama"
+  ],
+  "Thriller & Horror": [
+    "Thriller", "Horror", "Psychological Thriller", "Supernatural"
+  ],
+  "Science Fiction & Fantasy": [
+    "Sci-Fi", "Fantasy", "Dystopian", "Superhero"
+  ],
+  "Other": [
+    "Documentary", "Animation", "Musical", "Western", "War"
+  ]
+};
+
+export const sportsList = {
+  "Team Sports": [
+    "Football", "Basketball", "Baseball", "Soccer", "Volleyball", "Hockey"
+  ],
+  "Individual Sports": [
+    "Tennis", "Golf", "Swimming", "Athletics", "Gymnastics"
+  ],
+  "Combat Sports": [
+    "Boxing", "Martial Arts", "Wrestling", "Fencing"
+  ],
+  "Outdoor & Adventure": [
+    "Hiking", "Rock Climbing", "Surfing", "Skiing", "Snowboarding"
+  ],
+  "Fitness & Wellness": [
+    "Yoga", "Pilates", "CrossFit", "Weightlifting", "Running"
+  ],
+  "Other": [
+    "Cycling", "Skateboarding", "Esports", "Chess", "Bowling"
+  ]
+};

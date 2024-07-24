@@ -19,6 +19,7 @@ function MapContent({
   zoom = 13, 
   children
 }) {
+  console.log("map ",center);
   return (
     <MapContainer
       center={center}

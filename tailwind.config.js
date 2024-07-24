@@ -81,7 +81,7 @@ module.exports = withMT({
       },
     },
   },
-  plugins: [require("tailwindcss-animate") , addVariablesForColors]
+  plugins: [require("tailwindcss-animate") ,require('tailwind-scrollbar-hide'), addVariablesForColors]
 });
 
 function addVariablesForColors({ addBase, theme }) {

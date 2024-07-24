@@ -1,41 +1,121 @@
-import React from "react";
+import React, { useState, useEffect, createContext } from "react";
 import {
-  Navigate,
   RouterProvider,
   createBrowserRouter,
+  Navigate,
+  useNavigate,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import RootLayout from "./Pages/Nav/Navigator";
-import ApartmentInfo from "./Pages/Profile/Apartment/ApartmentInfo";
-import Filter from "./Pages/Prefrences/Filter";
-import Login from "./Pages/Login/Login";
-import RegistrationProcess from "./Pages/Register/RegistrationProcess";
-import DiscoverRoot from "./Pages/Discover/DiscoverRoot";
-import DiscoverList from "./Pages/Discover/DiscoverList";
+
+// import Filter from "./Pages/Prefrences/Filter";
+import RegistrationProcess from "./Pages/Register/RegisterProcess";
+import { auth } from "@/lib/http.js";
+import CardsList from "./Pages/Discover/cardsList";
+
+import MyProfile from "./Pages/MyProfile/myProfile";
+import SidebarDemo from "./Pages/Nav/sidebar";
+import Authentication from "./Pages/Auth/authentication";
+import PreferencesPage from "./Pages/Prefrences/preferencesPage";
+
+
+
+export const UserContext = createContext(null);
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = React.useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  return user ? children : null;
+};
+
+const ProfileRoute = () => {
+  return <MyProfile />;
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: (
+      <ProtectedRoute>
+        <SidebarDemo />
+      </ProtectedRoute>
+    ),
     children: [
       {
-        path: "discover",
-        element: <DiscoverList />,
+        path: "/",
+        element: <Navigate to="/discover" replace />,
       },
-      { path: "preferences", element: <Filter /> },
-      { path: "inbox", element: <p>z</p> },
+      {
+        path: "discover",
+        element: <CardsList />,
+      },
+      {
+        path: "preferences",
+        element: <PreferencesPage />,
+      },
+      {
+        path: "inbox",
+        element: <p>Inbox content</p>,
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <ProfileRoute />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
-  { path: "/login", element: <Login /> },
-  { path: "/signup", element: <RegistrationProcess /> },
+  {
+    path: "/auth",
+    element: <Authentication />,
+  },
+  {
+    path: "/complete-signup",
+    element: <RegistrationProcess />,
+  },
+
+  
 ]);
 
 const queryClient = new QueryClient();
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkCurrentUser = async () => {
+      try {
+        const userData = await auth.currentUser();
+        setUser(userData);
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkCurrentUser();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <UserContext.Provider value={{ user, setUser }}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </QueryClientProvider>
   );
 }

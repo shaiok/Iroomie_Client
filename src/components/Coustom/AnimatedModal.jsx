@@ -51,7 +51,7 @@ function ModalContents({ label, children }) {
       </ModalTrigger>
 
       <ModalBody className={`mx-2 rounded-2xl ${animationClass}`}>
-        <ModalContent className="overflow-scroll p-2" >
+        <ModalContent className="overflow-scroll" >
           {children}
         </ModalContent>
 

@@ -1,59 +1,75 @@
-import React from "react";
-import ImportanceSlider from "@/components/Coustom/ImportanceSlider";
-import RadioButton from "@/components/Coustom/RadioButton.jsx";
+import React, { useState, useEffect } from "react";
+import RadioCombobox from "@/components/Coustom/radioCbx";
+import { Slider } from "@/components/ui/slider";
 
-import SliderValues from "@/components/Coustom/ImportanceSlider";
+const importanceMap = [
+  "Not a Priority",
+  "Low Priority",
+  "Moderate Priority",
+  "High Priority",
+  "Top Priority",
+];
 
 const Question = ({ question, onAnswer, currentAnswer }) => {
-  const handleSelection = (index) => {
-    console.log("index");
-    onAnswer(index, currentAnswer?.importance || 3);
+  const [value, setValue] = useState(
+    currentAnswer?.value ?? null
+  );
+  const [importance, setImportance] = useState(currentAnswer?.importance ?? 3);
+
+  // Reset state when question changes
+  useEffect(() => {
+    setValue(currentAnswer?.value ?? null);
+    setImportance(currentAnswer?.importance ?? 3);
+  }, [question.id, currentAnswer]);
+
+  useEffect(() => {
+    if (value !== null) {
+      onAnswer(value, importance);
+    }
+  }, [value, importance, onAnswer]);
+
+  const handleAnswerChange = (index) => {
+    setValue(index+1);
   };
 
-  const handleImportance = (importance) => {
-    onAnswer(currentAnswer?.answerIndex - 1, importance);
+  const handleImportanceChange = (value) => {
+    setImportance(value[0]);
   };
 
   return (
-    <div className="grid auto-rows-auto gap-4 grid-flow-row p-4 overflow-y-auto">
-      <h2 className="text-lg lg:text-2xl font-bold text-gray-800 h-16 flex items-center ">
+    <div className="flex flex-col max-w-4xl w-full lg:gap-8 gap-4 text-sm lg:text-lg h-full ">
+      <h2 className="lg:text-xl text-lg font-semibold lg:h-20 h-16 flex items-center justify-center">
         {question.question}
       </h2>
-      <ul className="space-y-4">
-        {question.answers.map((answer, index) => (
-          <li key={index} className="w-full">
-            <RadioButton
-              id={`answer-${index}`}
-              name={`question-${question.id || "default"}`}
+      <main className="flex flex-col h-full gap-4">
+        <section className="flex flex-col gap-4">
+          {question.answers.map((answer, index) => (
+            <RadioCombobox
+              key={index}
+              value={index}
+              onChange={() => handleAnswerChange(index)}
+              checked={value -1 === index}
               label={answer}
-              checked={currentAnswer?.answerIndex === index + 1}
-              handleSelection={() => handleSelection(index)}
+              style="lg:h-20 h-14 w-full"
             />
-          </li>
-        ))}
-      </ul>
-      <div className="h-24 w-full">
-        {currentAnswer && (
-          <SliderValues
-            value={currentAnswer.importance}
-            onChange={handleImportance}
-            labels={{
-              1: "Not a Priority",
-              2: "Low Priority",
-              3: "Moderate Priority",
-              4: "High Priority",
-              5: "Top Priority",
-            }}
-            min={1}
-            max={5}
-            step={1}
-            title="Rate the Importance:"
-            sliderColor="#000000"
-            thumbColor="#ffffff"
-            thumbBorderColor="#000000"
-          />
+          ))}
+        </section>
+
+        {value !== null && (
+          <section className="flex flex-col gap-3">
+            <p className="mb-2">How important is this to you?</p>
+            <Slider
+              defaultValue={[3]}
+              value={[importance]}
+              max={5}
+              min={1}
+              step={1}
+              onValueChange={handleImportanceChange}
+            />
+            <p className="text-center text-xl font-semibold">{importanceMap[importance-1]}</p>
+          </section>
         )}
-      </div>
+      </main>
     </div>
   );
 };
