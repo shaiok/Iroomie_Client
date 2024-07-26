@@ -61,6 +61,8 @@ const DetailItem = ({ label, value, icon: Icon }) => (
   </div>
 );
 
+
+
 const ImageGallery = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -72,12 +74,20 @@ const ImageGallery = ({ images }) => {
     setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
   };
 
+  // Helper function to determine grid layout
+  const getGridLayout = (count) => {
+    if (count === 1) return 'grid-cols-1';
+    if (count === 2) return 'grid-cols-2';
+    if (count === 3) return 'grid-cols-2 grid-rows-2';
+    return 'grid-cols-4 grid-rows-2';
+  };
+
   return (
     <Dialog>
       {/* Mobile View */}
-      <div className="block md:hidden">
+      <div className="block sm:hidden">
         <DialogTrigger asChild>
-          <div className="relative w-full h-[300px] overflow-hidden rounded-lg">
+          <div className="relative w-full h-64 overflow-hidden rounded-lg">
             <img
               src={images[0]}
               alt="Main apartment view"
@@ -91,16 +101,16 @@ const ImageGallery = ({ images }) => {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 ">
-        {images.slice(0, 5).map((img, index) => (
+      <div className={`hidden sm:grid ${getGridLayout(images.length)} gap-2 h-96`}>
+        {images.slice(0, Math.min(5, images.length)).map((img, index) => (
           <DialogTrigger asChild key={index}>
             <div
               className={`
-                  cursor-pointer overflow-hidden relative
-                  ${index === 0 ? "col-span-2 row-span-2 rounded-l-xl" : ""}
-                  ${index === 2 ? "rounded-tr-xl" : ""}
-                  ${index === 4 ? "rounded-br-xl" : ""}
-                `}
+                cursor-pointer overflow-hidden relative
+                ${index === 0 && images.length > 1 ? "row-span-2" : ""}
+                ${index === 0 ? "rounded-l-xl" : ""}
+                ${index === Math.min(4, images.length - 1) ? "rounded-r-xl" : ""}
+              `}
             >
               <img
                 src={img}
@@ -119,15 +129,15 @@ const ImageGallery = ({ images }) => {
         ))}
       </div>
 
-      <DialogContent className="w-11/12 max-w-5xl">
-        <DialogHeader>
+      <DialogContent className="w-11/12 max-w-5xl p-0 overflow-hidden">
+        <DialogHeader className="p-4">
           <DialogTitle>Apartment Gallery</DialogTitle>
         </DialogHeader>
         <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh]">
           <img
             src={images[selectedImage]}
             alt={`Apartment view ${selectedImage + 1}`}
-            className="w-full h-full object-cover rounded-md"
+            className="w-full h-full object-contain bg-gray-100"
           />
           <Button
             variant="outline"
@@ -149,7 +159,7 @@ const ImageGallery = ({ images }) => {
             {selectedImage + 1} / {images.length}
           </div>
         </div>
-        <ScrollArea className=" flex w-full mt-4 items-center">
+        <ScrollArea className="w-full mt-4">
           <div className="flex gap-2 p-4">
             {images.map((img, index) => (
               <img
@@ -170,6 +180,7 @@ const ImageGallery = ({ images }) => {
     </Dialog>
   );
 };
+
 
 export default function ApartmentProfileDisplay({ profile }) {
   const { user } = useContext(UserContext);
@@ -259,10 +270,11 @@ export default function ApartmentProfileDisplay({ profile }) {
             <h2 className="text-xl sm:text-2xl font-semibold">
               What this place offers
             </h2>
-            <Accordion type="multiple" className="w-full">
+            <Accordion type="multiple" className="w-full" 
+             defaultValue={['general', 'kitchen', 'bathroom', 'bedroom', 'outdoor', 'entertainment' , 'safety']}>
               {Object.entries(profile.amenities).map(
                 ([category, items], index) => (
-                  <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionItem value={category} key={index}>
                     <AccordionTrigger className="text-sm sm:text-base">
                       {category}
                     </AccordionTrigger>

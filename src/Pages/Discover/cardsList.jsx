@@ -4,14 +4,14 @@ import RoommatePreviewCard from "./roommatePreviewCard";
 import { useContext } from "react";
 import { UserContext } from "@/App";
 import { useQuery } from "@tanstack/react-query";
-import { apartments, users } from "@/lib/http";
+import { apartments, roommates } from "@/lib/http";
 import { Link } from "react-router-dom";
 
 export default function CardsList() {
   const { user } = useContext(UserContext);
   const searchType = user.searchType === "apartment" ? "roommate" : "apartment";
   const funcType =
-    searchType === "apartment" ? apartments.getAll : users.getAll;
+    searchType === "apartment" ? apartments.getAll : roommates.getAll;
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: [searchType],
@@ -33,7 +33,7 @@ export default function CardsList() {
   if (data.length === 0) return <p>No {searchType}s found</p>;
 
   return (
-    <main className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-8 place-items-center">
+    <main className="grid lg:grid-cols-2 place-items-center gap-8  ">
       {data.map((item, index) => (
         <Card key={index} data={item}  />
       ))}

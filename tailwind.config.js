@@ -25,6 +25,9 @@ module.exports = withMT({
       },
     },
     extend: {
+      fontFamily: {
+        jost: ["JostRoman-Light", "Jost"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

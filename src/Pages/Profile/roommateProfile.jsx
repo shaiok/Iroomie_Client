@@ -76,7 +76,7 @@ export default function RoommateProfileDisplay({ profile , renderHeader}) {
       </div>
 
       <div className="flex flex-col mt-4 gap-2 items-center">
-        <h1 className="text-2xl sm:text-3xl font-semibold">
+        <h1 className="text-2xl sm:text-3xl font-semibold ">
           {profile.personalInfo.name || "Roommate"}
         </h1>
 

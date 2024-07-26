@@ -5,54 +5,58 @@ import { Button } from "@/components/ui/button";
 import { Loader, Check } from "lucide-react";
 import RoommatePreferences from "./RoommatePreferences";
 import ApartmentPreferences from "./ApartmentPreferences";
+import { useMutation } from "@tanstack/react-query";
+import { roommates, apartments } from "@/lib/http";
 
 export default function PreferencesPage() {
   const { user } = useContext(UserContext);
+  const userType = user.user.userType;
+
   const [preferences, setPreferences] = useState(
-    user?.userType === "roommate"
+    userType === "roommate"
       ? {
-          ageRange: 25,
-          genderPreference: ["Any"],
-          cleanliness: 3,
-          smoking: false,
-          pets: false,
-          occupations: ["Any"],
-          sharedInterests: [],
-          address: {
-            street: "",
-            city: "",
-            coordinates : [],
-          },
-          radius: 100,
-          moveInDateStart: null,
-          moveInDateEnd: null,
-        }
-      : {
           rentRange: 5000,
           bedrooms: 2,
           bathrooms: 1,
           minSize: 50,
-          furnished: false,
-          parking: false,
-          amenities: [],
+          details: {
+            AC: false,
+            Parking: false,
+            Balcony: false,
+            Furnished: false,
+            Elevator: false,
+            "Pet Friendly": false,
+            "Smoking Allowed": false,
+          },
           leaseDuration: 12,
           address: {
             street: "",
             city: "",
-            coordinates : [],
+            coordinates: [],
           },
-          radius: 100,
+          radius: 500,
           moveInDateStart: null,
-          moveInDateEnd: null,
+        }
+      : {
+          ageRange: [20, 40],
+          genderPreference: "All",
+          occupations: [],
+          sharedInterests: [],
         }
   );
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-
-  useEffect(() => {
-    setIsSaved(false);
-  }, [preferences]);
+  const { mutate, data, isPending, isSuccess, isError, error } = useMutation({
+    mutationFn: (data) =>
+      userType === "roommate"
+        ? roommates.setPreferences(data)
+        : apartments.setPreferences(data),
+    onSuccess: (data) => {
+      console.log("Preferences was updated successfully:", data);
+    },
+    onError: (error) => {
+      console.error("Preferences update error:", error);
+    },
+  });
 
   if (!user) {
     return (
@@ -63,22 +67,22 @@ export default function PreferencesPage() {
   }
 
   const handleSave = async () => {
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log("Saving preferences:", preferences);
-    setIsLoading(false);
-    setIsSaved(true);
+    mutate(preferences);
+
   };
 
   return (
-    <div className="  p-4 sm:p-6 lg:p-8">
-      <h1 className="text-3xl font-bold mb-6">Your Preferences</h1>
-      <p className="text-gray-600 mb-8">
-        Set your preferences to help us find the perfect{" "}
-        {user.userType === "roommate" ? "roommate" : "apartment"} for you.
-      </p>
+    <div className="grid p-4 sm:p-6 lg:p-8">
+      <div>
+        <h1 className="text-3xl font-bold mb-6">Your Preferences</h1>
+        <p className="text-gray-600 mb-8">
+          Set your preferences to help us find the perfect{" "}
+          {userType === "roommate" ? "apartment" : "roommate"} for you.
+        </p>
+      </div>
       <Separator className="my-6" />
-      {user.userType === "roommate" ? (
+      {userType === "roommate" ? (
         <RoommatePreferences
           preferences={preferences}
           setPreferences={setPreferences}
@@ -93,14 +97,14 @@ export default function PreferencesPage() {
         <Button
           className="w-full"
           onClick={handleSave}
-          disabled={isLoading || isSaved}
+          disabled={isPending || isSuccess}
         >
-          {isLoading ? (
+          {isPending ? (
             <>
               <Loader className="mr-2 h-4 w-4 animate-spin" />
               Saving...
             </>
-          ) : isSaved ? (
+          ) : isSuccess ? (
             <>
               <Check className="mr-2 h-4 w-4" />
               Saved
@@ -110,7 +114,7 @@ export default function PreferencesPage() {
           )}
         </Button>
       </div>
-      {isSaved && (
+      {isSuccess && (
         <p className="mt-4 text-center text-green-600">
           Your preferences have been saved successfully!
         </p>

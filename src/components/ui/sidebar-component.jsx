@@ -47,16 +47,14 @@ export const SidebarBody = (props) => {
 };
 
 export const DesktopSidebar = ({ className, children, ...props }) => {
-  const { open, setOpen, animate } = useSidebar();
+
   return (
     <motion.div
       className={cn(
         "h-full px-4 py-4 hidden lg:flex lg:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] flex-shrink-0",
         className
       )}
-  
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+
       {...props}
     >
       {children}
@@ -111,11 +109,12 @@ export const MobileSidebar = ({ className, children, ...props }) => {
 };
 
 export const SidebarLink = ({ link, className, ...props }) => {
-  const { open, animate } = useSidebar();
+  const { open,setOpen, animate } = useSidebar();
   const navigate = useNavigate();
 
   const handleClick = (e) => {
     e.preventDefault();
+    setOpen(!open)
     navigate(link.href);
   };
 
