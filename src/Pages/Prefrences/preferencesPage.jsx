@@ -115,7 +115,7 @@ export default function PreferencesPage() {
         </Button>
       </div>
       {isSuccess && (
-        <p className="mt-4 text-center text-green-600">
+        <p className="mt-4 text-center text-blue-600">
           Your preferences have been saved successfully!
         </p>
       )}

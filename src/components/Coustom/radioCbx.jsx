@@ -11,12 +11,12 @@ function RadioCombobox({
   return (
     <label
       className={`flex items-center justify-center border rounded-xl
-          hover:border-green-600 
+          hover:border-blue-600 
           transition-all duration-200 ease-in-out
           ${
             checked
-              ? "border-2 border-green-600 bg-green-50 hover:bg-green-50"
-              : "hover:bg-green-100/10"
+              ? "border-2 border-blue-600 bg-blue-50 hover:bg-blue-50"
+              : "hover:bg-blue-50/10"
           }
             ${style}
         `}
@@ -29,7 +29,7 @@ function RadioCombobox({
         onChange={onChange}
         {...props}
       />
-      <div className={`flex flex-col items-center justify-center gap-8 text-gray-800 ${checked ? "text-green-800" : ""}`}>
+      <div className={`flex flex-col items-center justify-center gap-8 text-gray-800 ${checked ? "text-blue-900" : ""}`}>
         {icon && icon}
         {label}
       </div>

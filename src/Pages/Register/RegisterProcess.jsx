@@ -43,9 +43,9 @@ function CompleteRegistration() {
         finalFormData.append("social", JSON.stringify(formData.profile.social));
 
         if (formData.profile.social?.profileImage) {
-          formData.profile.social.profileImage.forEach((file) => {
-            finalFormData.append(`images`, file);
-          });
+          
+            finalFormData.append(`images`, formData.profile.social.profileImage);
+
         }
       } else if (formData.userType === "apartment") {
         finalFormData.append("info", JSON.stringify(formData.profile.info));

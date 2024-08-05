@@ -2,6 +2,7 @@ import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import IroomieLogo from "@/components/Coustom/MyLogo";
 
 // Utility function (replace with your actual implementation)
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -16,7 +17,12 @@ export const useSidebar = () => {
   return context;
 };
 
-export const SidebarProvider = ({ children, open: openProp, setOpen: setOpenProp, animate = true }) => {
+export const SidebarProvider = ({
+  children,
+  open: openProp,
+  setOpen: setOpenProp,
+  animate = true,
+}) => {
   const [openState, setOpenState] = useState(false);
 
   const open = openProp !== undefined ? openProp : openState;
@@ -47,14 +53,12 @@ export const SidebarBody = (props) => {
 };
 
 export const DesktopSidebar = ({ className, children, ...props }) => {
-
   return (
     <motion.div
       className={cn(
-        "h-full px-4 py-4 hidden lg:flex lg:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] flex-shrink-0",
+        "h-full px-4 py-4 hidden xl:flex xl:flex-col bg-neutral-100w-fit flex-shrink-0",
         className
       )}
-
       {...props}
     >
       {children}
@@ -62,21 +66,24 @@ export const DesktopSidebar = ({ className, children, ...props }) => {
   );
 };
 
+
+
 export const MobileSidebar = ({ className, children, ...props }) => {
   const { open, setOpen } = useSidebar();
+
   return (
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row lg:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row xl:hidden items-center justify-between bg-neutral-100 w-full "
         )}
         {...props}
       >
-        <div className="flex justify-end z-20 w-full">
-          <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
-            onClick={() => setOpen(!open)}
-          />
+        <div className="flex justify-between items-center z-20 w-full">
+          <IroomieLogo className="h-8" />
+          {open && <IconX onClick={() => setOpen(!open)} />}
+          {!open && <IconMenu2 onClick={() => setOpen(!open)} />}
+
         </div>
         <AnimatePresence>
           {open && (
@@ -89,16 +96,16 @@ export const MobileSidebar = ({ className, children, ...props }) => {
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-fit inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >
-              <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+              {/* <div
+                className="absolute right-16 top-10 z-50 text-neutral-800 dark:text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
-                <IconX />
-              </div>
+                
+              </div> */}
               {children}
             </motion.div>
           )}
@@ -109,12 +116,12 @@ export const MobileSidebar = ({ className, children, ...props }) => {
 };
 
 export const SidebarLink = ({ link, className, ...props }) => {
-  const { open,setOpen, animate } = useSidebar();
+  const { open, setOpen, animate } = useSidebar();
   const navigate = useNavigate();
 
   const handleClick = (e) => {
     e.preventDefault();
-    setOpen(!open)
+    setOpen(!open);
     navigate(link.href);
   };
 

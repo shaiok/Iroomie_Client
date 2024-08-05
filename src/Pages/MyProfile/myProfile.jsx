@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { UserContext } from "@/App";
-import RoommateProfileDisplay from "../Profile/roommateProfile";
+
 import { Pencil } from "lucide-react";
 import RoommateProfileForm from "../Register/RoommateProfileForm";
+import RoommateProfileDisplay from "../Profile/roommateProfile";
 
 export default function MyProfile() {
   const { user } = useContext(UserContext);

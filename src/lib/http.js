@@ -54,22 +54,16 @@ export const roommates = {
   delete: (roommateId) => apiCall(`/roommates/${roommateId}`, "DELETE"),
   getSuggestions: (roommateId, signal) =>
     apiCall(`/roommates/${roommateId}/suggestions`, "GET", null, signal),
-  associateToApartment: (roommateId, apartmentId) =>
-    apiCall(`/roommates/${roommateId}/${apartmentId}`, "POST"),
+  
+  setAction : (apartmentId, action) => apiCall(`/roommates/set-action/${apartmentId}/?action=${action}`, "PUT"),
+
 };
 
 // Apartment functions
 export const apartments = {
   getAll: () => apiCall(`/apartments`),
-  get: (apartmentId, signal) =>
-    apiCall(`/apartments/${apartmentId}`, "GET", null, signal),
-  update: (apartmentId, apartmentData) =>
-    apiCall(`/apartments/${apartmentId}`, "PUT", apartmentData),
   setPreferences: (updatedPreferences) => apiCall(`/apartments/set-preferences`, "PUT", updatedPreferences),
-
+  setAction : (roommateId, action) => apiCall(`/apartments/set-action/${roommateId}/?action=${action}`, "PUT"),
   delete: (apartmentId) => apiCall(`/apartments/${apartmentId}`, "DELETE"),
-  associateUser: (apartmentId, userId) =>
-    apiCall(`/apartments/${apartmentId}/associate/${userId}`, "POST"),
-  disassociateUser: (apartmentId, userId) =>
-    apiCall(`/apartments/${apartmentId}/associate/${userId}`, "DELETE"),
+ 
 };

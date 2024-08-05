@@ -20,7 +20,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "@/App"; // Make sure this import path is correct
 import { useMutation } from "@tanstack/react-query";
 import { auth } from "@/lib/http"; // Make sure this import path is correct
-import iRoomieLogo from "@/assets/LogoiRoomie.svg";
+import IroomieLogo from "@/components/Coustom/MyLogo";
 
 export default function SidebarDemo() {
   const navigate = useNavigate();
@@ -65,8 +65,8 @@ export default function SidebarDemo() {
       ),
     },
     {
-      label: "Inbox",
-      href: "/inbox",
+      label: "My Activity",
+      href: "/activity",
       icon: (
         <IconInbox className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -83,14 +83,15 @@ export default function SidebarDemo() {
   return (
     <div
       className={cn(
-        "rounded-md flex flex-col lg:flex-row bg-gray-50 w-full flex-1 mx-auto ",
+        "rounded-md flex flex-col xl:flex-row bg-gray-50 w-full flex-1 mx-auto ",
         "h-screen"
       )}
     >
       <Sidebar open={open} setOpen={setOpen} animate={false}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto">
-            <img src={iRoomieLogo} alt="" className="my-8" />
+            {/* <img src={iRoomieLogo} alt="" className="my-8" /> */}
+            <IroomieLogo />
             <div className="mt-8 flex flex-col gap-4">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
@@ -133,8 +134,8 @@ export default function SidebarDemo() {
 // Dummy dashboard component with content
 const Dashboard = () => {
   return (
-    <div className="flex lg:flex-1">
-      <div className="p-2 lg:p-10 overflow-y-auto  border border-neutral-200 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
+    <div className="flex xl:flex-1 ">
+      <div className="relative p-2 xl:p-10 overflow-y-auto border border-neutral-200 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
         <Outlet />
       </div>
     </div>

@@ -100,8 +100,8 @@ function CategorizedBadgeSelect({
                       key={item}
                       variant={selectedOptions.includes(item) ? "secondary" : "outline"}
                       className={cn(
-                        "cursor-pointer hover:bg-green-50",
-                        selectedOptions.includes(item) ? "bg-green-100 text-green-800" : "border-green-500"
+                        "cursor-pointer hover:bg-blue-50",
+                        selectedOptions.includes(item) ? "bg-blue-50 text-blue-900" : "border-blue-500"
                       )}
                       onClick={() => handleToggleOption(item)}
                     >
@@ -119,7 +119,7 @@ function CategorizedBadgeSelect({
       </Popover>
       <div className="flex flex-wrap gap-2 mt-2">
         {selectedOptions.map((option) => (
-          <Badge key={option} className="pl-2  flex items-center bg-green-500">
+          <Badge key={option} className="pl-2  flex items-center bg-blue-500">
             {option}
             <button
               onClick={() => handleRemoveBadge(option)}

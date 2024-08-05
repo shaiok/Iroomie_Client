@@ -16,6 +16,7 @@ import MyProfile from "./Pages/MyProfile/myProfile";
 import SidebarDemo from "./Pages/Nav/sidebar";
 import Authentication from "./Pages/Auth/authentication";
 import PreferencesPage from "./Pages/Prefrences/preferencesPage";
+import MyActivity from "./Pages/Activity/myActivity";
 
 
 
@@ -60,8 +61,12 @@ const router = createBrowserRouter([
         element: <PreferencesPage />,
       },
       {
-        path: "inbox",
-        element: <p>Inbox content</p>,
+        path: "activity",
+        element:  <MyActivity/>,
+      },
+      {
+        path: "settings",
+        element: <p>settings content</p>,
       },
       {
         path: "/profile",

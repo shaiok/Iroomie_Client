@@ -5,10 +5,14 @@ import { useContext } from "react";
 import { UserContext } from "@/App";
 import { useQuery } from "@tanstack/react-query";
 import { apartments, roommates } from "@/lib/http";
-import { Link } from "react-router-dom";
+import SortDropDown from "@/components/Coustom/rdDrop";
 
 export default function CardsList() {
   const { user } = useContext(UserContext);
+  const notToDisplay = user.profile.likes
+    .concat(user.profile.dislikes)
+    .concat(user.profile.matches);
+  const myAnswers = user.profile.questionnaire;
   const searchType = user.searchType === "apartment" ? "roommate" : "apartment";
   const funcType =
     searchType === "apartment" ? apartments.getAll : roommates.getAll;
@@ -18,13 +22,12 @@ export default function CardsList() {
     queryFn: funcType,
   });
 
-  const Card = ({ data }) =>
+  const Card = ({ cardData  }) =>
+
     searchType === "apartment" ? (
-      <ApartmentPreviewCard apartment={data} />
+      <ApartmentPreviewCard data={cardData}  myAnswers={myAnswers}/>
     ) : (
-      <Link to={`/profile/${data.id}`}>
-        <RoommatePreviewCard roommate={data} />
-      </Link>
+      <RoommatePreviewCard data={cardData} myAnswers={myAnswers} />
     );
 
   if (isPending) return <p>Loading...</p>;
@@ -33,10 +36,17 @@ export default function CardsList() {
   if (data.length === 0) return <p>No {searchType}s found</p>;
 
   return (
-    <main className="grid lg:grid-cols-2 place-items-center gap-8  ">
-      {data.map((item, index) => (
-        <Card key={index} data={item}  />
-      ))}
+    <>
+    <div className="absolute top-0 left-0 bg-gray-50 w-full flex justify-end items-center px-16 h-20">
+      <SortDropDown />
+    </div>
+    <main className="flex flex-col gap-8 max-w-4xl w-full mx-auto mt-20   ">
+      {data
+        .filter((item) => !notToDisplay.includes(item[searchType]._id))
+        .map((item, index) => (
+          <Card key={index} cardData={item} />
+        ))}
     </main>
+    </>
   );
 }

@@ -26,7 +26,7 @@
       }
 
       .cls-2 {
-        fill: #66bb6a;
+        <!-- fill: #66bb6a; -->
       }
     </style>
     <clipPath id="clippath">

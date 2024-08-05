@@ -61,8 +61,8 @@ export const PreferenceSlider = ({
             key={option.value}
             variant={selected.includes(option.value) ? "secondary" : "outline"}
             className={cn(
-              "cursor-pointer text-green-900 hover:bg-neutral-100",
-              selected.includes(option.value) ? "bg-green-100 text-green-800" : "border-green-500"
+              "cursor-pointer text-blue-900 hover:bg-neutral-100",
+              selected.includes(option.value) ? "bg-blue-50 text-blue-900" : "border-blue-500"
             )}
             onClick={() => {
               if (single) {

@@ -39,6 +39,7 @@ import MapContent from "@/components/Coustom/MapContent";
 import { Marker, Popup } from "react-leaflet";
 import { format } from "date-fns";
 import { UserContext } from "@/App";
+import AnswersDrawer from "@/components/Coustom/answersDrawer";
 
 const IconLabel = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-2 text-gray-600">
@@ -53,7 +54,7 @@ const IconLabel = ({ icon: Icon, label, value }) => (
 const DetailItem = ({ label, value, icon: Icon }) => (
   <div className="flex items-center gap-2">
     {value ? (
-      <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+      <Check className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
     ) : (
       <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
     )}
@@ -182,7 +183,7 @@ const ImageGallery = ({ images }) => {
 };
 
 
-export default function ApartmentProfileDisplay({ profile }) {
+export default function ApartmentProfileDisplay({ profile, myAnswers }) {
   const { user } = useContext(UserContext);
   if (profile === undefined) {
     profile = user.profile;
@@ -195,7 +196,7 @@ export default function ApartmentProfileDisplay({ profile }) {
           {profile.info.overview.title}
         </h1>
         <div className="flex items-center justify-between">
-          <Badge className="text-xs sm:text-sm bg-green-100 text-green-700 px-2">
+          <Badge className="text-xs sm:text-sm bg-blue-50 text-blue-900 px-2">
             <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
             {profile.info.location.address.city},{" "}
             {profile.info.location.address.street}
@@ -237,8 +238,8 @@ export default function ApartmentProfileDisplay({ profile }) {
               {profile.info.location.address.street},{" "}
               {profile.info.location.address.city}
             </p>
-            <div className="rounded-xl overflow-hidden ">
-              <MapContent center={profile.info.location.coordinates} zoom={15}>
+            <div className="rounded-xl overflow-hidden w-full h-80">
+              <MapContent center={profile.info.location.coordinates} zoom={15} >
                 <Marker position={profile.info.location.coordinates}>
                   <Popup>
                     {profile.info.overview.title}
@@ -255,7 +256,7 @@ export default function ApartmentProfileDisplay({ profile }) {
                 {profile.info.location.nearbyPlaces.map((place, index) => (
                   <Badge
                     key={index}
-                    className="text-xs sm:text-sm bg-green-100 text-green-700"
+                    className="text-xs sm:text-sm bg-blue-50 text-blue-700"
                   >
                     {place}
                   </Badge>
@@ -283,7 +284,7 @@ export default function ApartmentProfileDisplay({ profile }) {
                         {items.map((item, idx) => (
                           <Badge
                             key={idx}
-                            className="text-xs sm:text-sm bg-green-100 text-green-700"
+                            className="text-xs sm:text-sm bg-blue-50 text-blue-900"
                           >
                             {item}
                           </Badge>
@@ -311,7 +312,9 @@ export default function ApartmentProfileDisplay({ profile }) {
         </div>
 
         <div className="lg:col-span-1">
-          <Card className="sticky top-8">
+          <div className="sticky top-8">
+
+          <Card >
             <CardHeader>
               <CardTitle>
                 <span className="text-xl sm:text-2xl font-semibold">
@@ -351,6 +354,9 @@ export default function ApartmentProfileDisplay({ profile }) {
               </div>
             </CardContent>
           </Card>
+          <AnswersDrawer name={'Apartments'} myAnswers={myAnswers} otherAnswers={profile.questionnaire}  />
+
+          </div>
         </div>
       </div>
     </div>

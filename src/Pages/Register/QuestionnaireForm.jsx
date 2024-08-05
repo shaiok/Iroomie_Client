@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
-import { questionsTest as questions } from "@/lib/register";
+import { questionsArray as questions } from "@/lib/register"; //questionsTest as questions
 import Question from "./Question";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 function QuestionnaireForm({ onSubmit }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -43,9 +44,6 @@ function QuestionnaireForm({ onSubmit }) {
       onSubmit={handleNext}
       className="h-screen flex flex-col  items-center p-4 lg:py-8   "
     >
-      <h2 className="lg:h-32 h-20 flex items-center">
-        Choose the right answers for you and rate their importance
-      </h2>
       <main className="flex flex-col justify-between w-full h-full items-center ">
         <Question
           key={question.id}
@@ -54,14 +52,14 @@ function QuestionnaireForm({ onSubmit }) {
           currentAnswer={answers[question.id]}
         />
 
-        <div className="grid grid-cols-3 justify-items-center w-full max-w-xl">
-          <div>
+        <div className="grid grid-cols-3 justify-items-center items-center w-full max-w-xl  ">
+          <div >
             {!isFirstQuestion && (
               <button
                 type="button"
                 onClick={handleBack}
-                className="w-20 py-2 bg-black text-white text-sm rounded-md font-semibold hover:bg-black/[0.8] hover:shadow-lg"
-              >
+                className="flex text-center bg-transparent text-blue-500 text-sm rounded-md font-semibold hover:underline"              >
+                <ChevronLeft />
                 Prev
               </button>
             )}
@@ -73,13 +71,14 @@ function QuestionnaireForm({ onSubmit }) {
             <span>{questions.length}</span>
           </div>
 
-          <div className="">
+          <div >
             <button
               type={isLastQuestion ? "submit" : "button"}
               onClick={handleNext}
-              className="w-20 py-2 bg-black text-white text-sm rounded-md font-semibold hover:bg-black/[0.8] hover:shadow-lg"
+              className="flex w-fit  text-center bg-transparent text-blue-500 text-sm rounded-md font-semibold  hover:underline"
             >
               {isLastQuestion ? "Submit" : "Next"}
+              <ChevronRight />
             </button>
           </div>
         </div>

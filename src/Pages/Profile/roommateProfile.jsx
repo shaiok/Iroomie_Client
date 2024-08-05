@@ -10,6 +10,7 @@ import {
   Instagram,
   Facebook,
   Pencil,
+  Search,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -22,9 +23,9 @@ import {
 } from "@/components/ui/accordion";
 import LinkPreview from "@/components/Coustom/LinkPreview";
 import QuestionAnswerSummary from "@/components/Coustom/questionAnswerSummary";
-import { questions, questionsTest } from "@/lib/register";
-import { useParams, useNavigate } from "react-router-dom";
-
+import { GenericDrawer } from "@/components/Coustom/drawer";
+import { DrawerClose } from "@/components/ui/drawer";
+import AnswersDrawer from "@/components/Coustom/answersDrawer";
 
 const IconLabel = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-2 text-gray-600">
@@ -47,7 +48,7 @@ const InterestSection = ({ title, items, icon: Icon }) => (
         <Badge
           key={index}
           variant="secondary"
-          className="text-xs sm:text-sm bg-green-100 text-green-700"
+          className="text-xs sm:text-sm bg-blue-50 text-blue-900"
         >
           {item}
         </Badge>
@@ -56,27 +57,30 @@ const InterestSection = ({ title, items, icon: Icon }) => (
   </div>
 );
 
-export default function RoommateProfileDisplay({ profile , renderHeader}) {
+export default function RoommateProfileDisplay({ profile, renderHeader }) {
+  let avatarName =
+    profile.personalInfo.name?.charAt(0) +
+      profile.personalInfo.name?.split(" ")[1]?.charAt(0) || "Roomie";
 
   return (
     <div className=" font-sans flex flex-col gap-6 sm:gap-8">
       <div className="relative h-48 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500">
-      {renderHeader && renderHeader()}
-      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 ">
+        {renderHeader && renderHeader()}
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 ">
           <Avatar className="w-24 h-24 sm:w-36 sm:h-36">
             <AvatarImage
               src={profile.social.profileImage}
               className="object-cover shadow-2xl"
             />
-            <AvatarFallback>
-              {profile.personalInfo.name?.charAt(0) || "R"}
+            <AvatarFallback className="text-5xl">
+              {avatarName || "Roomie"}
             </AvatarFallback>
           </Avatar>
         </div>
       </div>
 
       <div className="flex flex-col mt-4 gap-2 items-center">
-        <h1 className="text-2xl sm:text-3xl font-semibold ">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 ">
           {profile.personalInfo.name || "Roommate"}
         </h1>
 
@@ -106,19 +110,19 @@ export default function RoommateProfileDisplay({ profile , renderHeader}) {
             </LinkPreview>
           )}
         </div>
-        <Badge className="text-xs sm:text-sm bg-green-100 text-green-700 px-2">
+        <Badge className="text-xs sm:text-sm bg-blue-50 text-blue-900 px-2">
           <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
           {profile.personalInfo.hometown}
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-12 p-4 ">
-        <div className="lg:col-span-2 flex flex-col gap-6 sm:gap-8">
+      <div className="grid grid-cols-1  gap-6 lg:gap-12 p-4 ">
+        <div className="flex flex-col gap-6 sm:gap-8">
           <div className="flex flex-col gap-2">
             <h2 className="text-xl sm:text-2xl font-semibold">
               Personal Information
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
               <IconLabel
                 icon={User}
                 label="Age"
@@ -198,18 +202,9 @@ export default function RoommateProfileDisplay({ profile , renderHeader}) {
               </AccordionItem>
             </Accordion>
           </div>
+      <AnswersDrawer name={profile.personalInfo.name} userAnswers={profile.answers} />
         </div>
 
-        <div className="lg:col-span-1">
-          <h3 className="text-2xl font-bold p-3">
-            {profile.personalInfo.name.split(" ")[0]}'s Answers Summary
-          </h3>
-
-          <QuestionAnswerSummary
-            questions={questions}
-            userAnswers={profile.questions}
-          />
-        </div>
       </div>
     </div>
   );
