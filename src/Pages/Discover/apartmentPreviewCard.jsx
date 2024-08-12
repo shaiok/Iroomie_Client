@@ -212,14 +212,12 @@ import { Marker, Popup } from "react-leaflet";
 import { Separator } from "@/components/ui/separator";
 
 
-const ApartmentPreviewCard = ({ data, myAnswers, vote }) => {
+const ApartmentPreviewCard = ({ data, myAnswers, vote , onAction}) => {
 const { apartment, score } = data;
 
   const [showMap, setShowMap] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { info, details } = apartment;
-  // console.log("info", info)
-  console.log("apartment", apartment)
 
   const handleCardClick = (e) => {
     e.stopPropagation();
@@ -357,7 +355,7 @@ const { apartment, score } = data;
 
             <div className="text-xs md:text-sm text-gray-500 w-full flex items-center justify-between">
               <Separator className="w-2/5" />
-              <div className="w-10 bg-blue-50 h-10 flex font-semibold text-md text-blue-900 items-center justify-center rounded-full mx-1">{Math.round(score * 100)}%</div>
+              <div className="w-10 bg-blue-50 h-10 flex font-semibold text-md text-blue-900 items-center justify-center rounded-full mx-1">{score}%</div>
               <Separator className="w-2/5" />
 
             </div>
@@ -369,8 +367,10 @@ const { apartment, score } = data;
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
         vote={vote}
+        onAction={onAction}
+
       >
-        <ApartmentProfileDisplay profile={apartment} myAnswers={myAnswers} />
+        <ApartmentProfileDisplay profile={apartment} myAnswers={myAnswers} score={score} />
       </Modal>
     </>
   );

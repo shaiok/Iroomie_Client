@@ -1,4 +1,3 @@
-import React, { useContext, useState } from "react";
 import {
   User,
   Briefcase,
@@ -9,8 +8,6 @@ import {
   Gamepad2,
   Instagram,
   Facebook,
-  Pencil,
-  Search,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -22,9 +19,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import LinkPreview from "@/components/Coustom/LinkPreview";
-import QuestionAnswerSummary from "@/components/Coustom/questionAnswerSummary";
-import { GenericDrawer } from "@/components/Coustom/drawer";
-import { DrawerClose } from "@/components/ui/drawer";
 import AnswersDrawer from "@/components/Coustom/answersDrawer";
 
 const IconLabel = ({ icon: Icon, label, value }) => (
@@ -57,7 +51,8 @@ const InterestSection = ({ title, items, icon: Icon }) => (
   </div>
 );
 
-export default function RoommateProfileDisplay({ profile, renderHeader }) {
+export default function RoommateProfileDisplay({ profile, myAnswers, score , editHeader , myProfile}) {
+  
   let avatarName =
     profile.personalInfo.name?.charAt(0) +
       profile.personalInfo.name?.split(" ")[1]?.charAt(0) || "Roomie";
@@ -65,7 +60,7 @@ export default function RoommateProfileDisplay({ profile, renderHeader }) {
   return (
     <div className=" font-sans flex flex-col gap-6 sm:gap-8">
       <div className="relative h-48 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500">
-        {renderHeader && renderHeader()}
+        {editHeader && editHeader()}
         <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 ">
           <Avatar className="w-24 h-24 sm:w-36 sm:h-36">
             <AvatarImage
@@ -202,9 +197,14 @@ export default function RoommateProfileDisplay({ profile, renderHeader }) {
               </AccordionItem>
             </Accordion>
           </div>
-      <AnswersDrawer name={profile.personalInfo.name} userAnswers={profile.answers} />
+          <AnswersDrawer
+            name={profile.personalInfo.name}
+            myAnswers={myAnswers}
+            otherAnswers={profile.questionnaire}
+            score={score}
+            myProfile={myProfile}
+          />
         </div>
-
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import SidebarDemo from "./Pages/Nav/sidebar";
 import Authentication from "./Pages/Auth/authentication";
 import PreferencesPage from "./Pages/Prefrences/preferencesPage";
 import MyActivity from "./Pages/Activity/myActivity";
+import Chat from "./Pages/Chat/chat";
 
 
 
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         element:  <MyActivity/>,
       },
       {
+        path: "chat",
+        element:  <Chat/>,
+      },
+      {
         path: "settings",
         element: <p>settings content</p>,
       },
@@ -99,7 +104,9 @@ function App() {
   useEffect(() => {
     const checkCurrentUser = async () => {
       try {
-        const userData = await auth.currentUser();
+        // const userData = await auth.testRoommate();
+        const userData = await auth.testApartment();
+
         setUser(userData);
       } catch (error) {
         console.error("Error fetching current user:", error);

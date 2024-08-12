@@ -67,59 +67,71 @@ const detailOptions = [
   },
 ];
 
-const ApartmentProfileForm = ({ onSubmit }) => {
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toISOString().split('T')[0];
+};
+
+const ApartmentProfileForm = ({ onSubmit, initialData = {} }) => {
   const [profile, setProfile] = useState({
     info: {
       overview: {
-        title: "",
-        description: "",
-        propertyType: "",
-        totalCapacity: "",
-        availableRooms: "",
+        title: initialData.info?.overview?.title || "",
+        description: initialData.info?.overview?.description || "",
+        propertyType: initialData.info?.overview?.propertyType || "",
+        totalCapacity: initialData.info?.overview?.totalCapacity || "",
+        availableRooms: initialData.info?.overview?.availableRooms || "",
       },
       location: {
         address: {
-          street: "",
-          city: "",
+          street: initialData.info?.location?.address?.street || "",
+          city: initialData.info?.location?.address?.city || "",
         },
-        coordinates: ["", ""],
-        nearbyPlaces: [],
+        coordinates: initialData.info?.location?.coordinates || ["", ""],
+        nearbyPlaces: initialData.info?.location?.nearbyPlaces || [],
       },
       specifications: {
-        size: "",
-        bedrooms: "",
-        bathrooms: "",
-        floorNumber: "",
+        size: initialData.info?.specifications?.size || "",
+        bedrooms: initialData.info?.specifications?.bedrooms || "",
+        bathrooms: initialData.info?.specifications?.bathrooms || "",
+        floorNumber: initialData.info?.specifications?.floorNumber || "",
       },
       financials: {
-        rent: "",
-        securityDeposit: "",
+        rent: initialData.info?.financials?.rent || "",
+        securityDeposit: initialData.info?.financials?.securityDeposit || "",
       },
       leaseTerms: {
-        leaseDuration: "",
-        availableFrom: "",
+        leaseDuration: initialData.info?.leaseTerms?.leaseDuration || "",
+        availableFrom: formatDate(initialData.info?.leaseTerms?.availableFrom) || "",
       },
-      images: [],
+      images: initialData.info?.images || [],
     },
     amenities: {
-      general: [],
-      kitchen: [],
-      bathroom: [],
-      bedroom: [],
-      outdoor: [],
-      entertainment: [],
-      safety: [],
+      general: initialData.amenities?.general || [],
+      kitchen: initialData.amenities?.kitchen || [],
+      bathroom: initialData.amenities?.bathroom || [],
+      bedroom: initialData.amenities?.bedroom || [],
+      outdoor: initialData.amenities?.outdoor || [],
+      entertainment: initialData.amenities?.entertainment || [],
+      safety: initialData.amenities?.safety || [],
     },
     details: {
-      AC: false,
-      Parking: false,
-      Balcony: false,
-      Furnished: false,
-      Elevator: false,
-      "Pet Friendly": false,
-      "Smoking Allowed": false,
+      AC: initialData.details?.AC || false,
+      Parking: initialData.details?.Parking || false,
+      Balcony: initialData.details?.Balcony || false,
+      Furnished: initialData.details?.Furnished || false,
+      Elevator: initialData.details?.Elevator || false,
+      "Pet Friendly": initialData.details?.["Pet Friendly"] || false,
+      "Smoking Allowed": initialData.details?.["Smoking Allowed"] || false,
     },
   });
+
+  const initialAddress = initialData.info?.location?.address
+    ? `${initialData.info.location.address.street}, ${initialData.info.location.address.city}`
+    : "";
+
+  console.log("Initial Data:", profile);
 
   const handleInputChange = (section, field, value) => {
     setProfile((prev) => ({
@@ -165,7 +177,6 @@ const ApartmentProfileForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("Apartment Profile data:", profile);
     onSubmit(profile);
   };
 
@@ -254,6 +265,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             label="Address"
             placeholder="Enter address"
             onChange={handleLocationChange}
+            initialValue={initialAddress}
           />
 
           <CategorizedBadgeSelect
@@ -404,16 +416,22 @@ const ApartmentProfileForm = ({ onSubmit }) => {
               )
             }
           />
+
         </section>
 
         <SeparatorWithLabel label="Images" />
         <section className="grid grid-cols-1 gap-8">
           <ImageUploadGrid
-            onChange={(files) =>
+          isUpload={false}
+          initialImages={profile.info.images}
+          onChange={(files) =>
               handleInputChange("info", "images", [...files])
             }
           />
         </section>
+
+
+
 
         <SeparatorWithLabel label="Amenities" />
         <section className="grid lg:grid-cols-2 grid-cols-1 gap-8">
@@ -426,6 +444,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "general", newSelection)
             }
+            value={profile.amenities.general}
           />
           <CategorizedBadgeSelect
             icon={<Coffee />}
@@ -436,6 +455,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "kitchen", newSelection)
             }
+            value={profile.amenities.kitchen}
           />
           <CategorizedBadgeSelect
             icon={<Bath />}
@@ -446,6 +466,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "bathroom", newSelection)
             }
+            value={profile.amenities.bathroom}
           />
           <CategorizedBadgeSelect
             icon={<Bed />}
@@ -456,6 +477,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "bedroom", newSelection)
             }
+            value={profile.amenities.bedroom}
           />
           <CategorizedBadgeSelect
             icon={<TreePine />}
@@ -466,6 +488,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "outdoor", newSelection)
             }
+            value={profile.amenities.outdoor}
           />
           <CategorizedBadgeSelect
             icon={<Tv />}
@@ -476,6 +499,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "entertainment", newSelection)
             }
+            value={profile.amenities.entertainment}
           />
           <CategorizedBadgeSelect
             icon={<ShieldCheck />}
@@ -486,6 +510,7 @@ const ApartmentProfileForm = ({ onSubmit }) => {
             onChange={(newSelection) =>
               handleInputChange("amenities", "safety", newSelection)
             }
+            value={profile.amenities.safety}
           />
         </section>
 

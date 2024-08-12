@@ -5,10 +5,9 @@ import {
   SidebarLink,
 } from "@/components/ui/sidebar-component";
 import {
-  IconArrowLeft,
   IconBrandTabler,
   IconUserBolt,
-  IconMenu2,
+  IconBrandMessenger,
   IconInbox,
   IconSettings,
   IconLogout,
@@ -17,9 +16,9 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Outlet, useNavigate } from "react-router-dom";
-import { UserContext } from "@/App"; // Make sure this import path is correct
+import { UserContext } from "@/App"; 
 import { useMutation } from "@tanstack/react-query";
-import { auth } from "@/lib/http"; // Make sure this import path is correct
+import { auth } from "@/lib/http"; 
 import IroomieLogo from "@/components/Coustom/MyLogo";
 
 export default function SidebarDemo() {
@@ -73,6 +72,14 @@ export default function SidebarDemo() {
     },
     
     {
+      label: "Chat",
+      href: "/chat",
+      icon: (
+        <IconBrandMessenger className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    
+    {
       label: "Settings",
       href: "/settings",
       icon: (
@@ -90,7 +97,6 @@ export default function SidebarDemo() {
       <Sidebar open={open} setOpen={setOpen} animate={false}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto">
-            {/* <img src={iRoomieLogo} alt="" className="my-8" /> */}
             <IroomieLogo />
             <div className="mt-8 flex flex-col gap-4">
               {links.map((link, idx) => (

@@ -8,9 +8,21 @@ export default function Authentication() {
   const { mutate } = useMutation({
     mutationFn: auth.initiateGoogleAuth,
   });
+  const roommateSignIn = useMutation({
+    mutationFn: auth.testRoommate,
+  });
+  const apartmentSignIn = useMutation({
+    mutationFn: auth.testApartment,
+  });
 
   const handleGoogleSignIn = () => {
     mutate();
+  };
+  const handleRoommateSignIn = () => {
+    roommateSignIn.mutate();
+  };
+  const handleApartmentSignIn = () => {
+    apartmentSignIn.mutate();
   };
 
   return (
@@ -31,6 +43,22 @@ export default function Authentication() {
           >
             <GoogleIcon className="mr-2" />
             Continue Google
+          </Button>
+          <Button
+            type="button"
+            onClick={handleRoommateSignIn}
+            className="w-full bg-blue-500 text-white grid grid-cols-3 hover:bg-red-400 hover:shadow-md"
+          >
+            <GoogleIcon className="mr-2" />
+            Login Roommate Test
+          </Button>
+          <Button
+            type="button"
+            onClick={handleApartmentSignIn}
+            className="w-full bg-purple-500 text-white grid grid-cols-3 hover:bg-red-400 hover:shadow-md"
+          >
+            <GoogleIcon className="mr-2" />
+            Login Apartment Test
           </Button>
         </div>
       </div>

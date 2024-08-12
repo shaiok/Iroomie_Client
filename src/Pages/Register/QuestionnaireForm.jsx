@@ -3,9 +3,9 @@ import { questionsArray as questions } from "@/lib/register"; //questionsTest as
 import Question from "./Question";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
-function QuestionnaireForm({ onSubmit }) {
+function QuestionnaireForm({ initialData ={}, onSubmit }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(initialData);
 
   const question = questions[currentQuestion];
 

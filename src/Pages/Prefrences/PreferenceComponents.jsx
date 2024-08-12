@@ -17,65 +17,76 @@ import { Marker, Circle } from "react-leaflet";
 import LocationCombobox from "@/components/Coustom/locationCombobox";
 import { cn } from "@/lib/utils";
 
-export const PreferenceSlider = ({
-    label,
-    extraLabel,
-    value,
-    onChange,
-    min,
-    max,
-    step,
-    icon: Icon,
-    isRange = false,
-  }) => (
-    <div className="flex flex-col gap-2">
-      <Label className="flex items-center gap-2">
-        {Icon && <Icon className="h-4 w-4" />}
-        {label}
-      </Label>
-      <Slider
-        value={isRange ? value : [value]}
-        onValueChange={(newValue) => onChange(isRange ? newValue : newValue[0])}
-        min={min}
-        max={max}
-        step={step}
-        minStepsBetweenThumbs={1}
-      />
-      <div className="flex justify-between text-sm text-gray-500">
-        <span>{min}</span>
-        <span className="font-medium text-md text-black">
-          {isRange ? `${value[0]} - ${value[1]}` : value} <span>{extraLabel}</span>
-        </span>
-        <span>{max}</span>
-      </div>
-    </div>
-  );
 
-  
-  export const MultiSelect = ({ label, options, selected, single = false, onChange }) => (
+export const RangeSlider = ({
+  label,
+  extraLabel,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  icon: Icon,
+}) => (
+  <div className="flex flex-col gap-2">
+    <Label className="flex items-center gap-2">
+      {Icon && <Icon className="h-4 w-4" />}
+      {label}
+    </Label>
+    <Slider
+      value={value}
+      onValueChange={(newValue) => onChange(newValue)}
+      min={min}
+      max={max}
+      step={step}
+    />
+    <div className="flex justify-between text-sm text-gray-500">
+      <span>{min}</span>
+      <span className="font-medium text-md text-black">
+        {`${value[0]} - ${value[1]}`} <span>{extraLabel}</span>
+      </span>
+      <span>{max}</span>
+    </div>
+  </div>
+);
+export const MultiSelect = ({
+  label,
+  options,
+  value,
+  onChange,
+  single = false,
+}) => {
+  const handleOptionClick = (optionValue) => {
+    let newValue;
+    if (single) {
+      newValue = [optionValue];
+    } else {
+      newValue = value.includes(optionValue)
+        ? value.filter((v) => v !== optionValue)
+        : [...value, optionValue];
+    }
+    onChange(newValue);
+  };
+
+  const isSelected = (optionValue) => {
+    return value.includes(optionValue);
+  };
+
+  return (
     <div className="flex flex-col gap-2">
       <Label>{label}</Label>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
           <Badge
             key={option.value}
-            variant={selected.includes(option.value) ? "secondary" : "outline"}
+            variant={isSelected(option.value) ? "secondary" : "outline"}
             className={cn(
               "cursor-pointer text-blue-900 hover:bg-neutral-100",
-              selected.includes(option.value) ? "bg-blue-50 text-blue-900" : "border-blue-500"
+              isSelected(option.value)
+                ? "bg-blue-50 text-blue-900"
+                : "border-blue-500"
             )}
-            onClick={() => {
-              if (single) {
-                // For single selection, just replace the entire selection
-                onChange([option.value]);
-              } else {
-                // For multiple selection, toggle the selected item
-                const newSelected = selected.includes(option.value)
-                  ? selected.filter((item) => item !== option.value)
-                  : [...selected, option.value];
-                onChange(newSelected);
-              }
-            }}
+            onClick={() => handleOptionClick(option.value)}
           >
             {option.icon && <option.icon className="h-4 w-4 mr-1" />}
             {option.label}
@@ -84,6 +95,95 @@ export const PreferenceSlider = ({
       </div>
     </div>
   );
+};
+
+export const PreferenceSlider = ({
+  label,
+  extraLabel,
+  value,
+  onChange,
+  isMin,
+
+  min,
+  max,
+  step,
+  icon: Icon,
+}) => (
+  <div className="flex flex-col gap-2">
+    <Label className="flex items-center gap-2">
+      {Icon && <Icon className="h-4 w-4" />}
+      {label}
+    </Label>
+    <Slider
+      value={[value]}
+      onValueChange={(newValue) => onChange(newValue[0])}
+      min={min}
+      max={max}
+      step={step}
+      isMin={isMin}
+
+    />
+    <div className="flex justify-between text-sm text-gray-500">
+      <span>{min}</span>
+      <span className="font-medium text-md text-black">
+        {value} <span>{extraLabel}</span>
+      </span>
+      <span>{max}+</span>
+    </div>
+  </div>
+);
+
+// export const MultiSelect = ({
+//   label,
+//   options,
+//   selected,
+//   single = false,
+//   onChange,
+// }) => {
+//   // console.log("selected value", selected.value.includes("Male"))
+//   // console.log("options", options)
+
+//   return <div className="flex flex-col gap-2">
+//     <Label>{label}</Label>
+//     <div className="flex flex-wrap gap-2">
+//       {options.map((option) => {
+//         console.log("option", option.value)
+//         console.log("option", selected.value)
+//         console.log("option", selected.value.includes(option.value))
+//         return (
+//         <Badge
+//           key={option.value}
+//           variant={selected.value.includes(option.value) ? "secondary" : "outline"}
+//           className={cn(
+//             "cursor-pointer text-blue-900 hover:bg-neutral-100",
+//             selected.value.includes(option.value)
+//               ? "bg-blue-50 text-blue-900"
+//               : "border-blue-500"
+//           )}
+//           onClick={() => {
+//             if (single) {
+//               // For single selection, just replace the entire selection
+//               onChange([option.value]);
+//             } else {
+//               // For multiple selection, toggle the selected item
+//               const newSelected = selected.includes(option.value)
+//                 ? selected.filter((item) => item !== option.value)
+//                 : [...selected, option.value];
+//               onChange(newSelected);
+//             }
+//           }}
+//         >
+//           {option.icon && <option.icon className="h-4 w-4 mr-1" />}
+//           {option.label}
+//         </Badge>
+//       )}
+
+//       )}
+//     </div>
+//   </div>
+
+//     };
+
 export const AddressPreference = ({
   address,
   setAddress,
@@ -92,7 +192,6 @@ export const AddressPreference = ({
 }) => {
   const [mapCenter, setMapCenter] = useState([32.08, 34.84]);
   const [mapZoom, setMapZoom] = useState(12);
-
 
   const handleAddressChange = (value) => {
     setAddress({
@@ -106,9 +205,6 @@ export const AddressPreference = ({
 
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Location Preferences</CardTitle>
-      </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <LocationCombobox
           label="Preferred Address"
@@ -127,20 +223,18 @@ export const AddressPreference = ({
 
         <div className="h-96 rounded-xl overflow-auto ">
           <MapContent center={mapCenter} zoom={mapZoom}>
-            {address.street && <Marker position={mapCenter} />}
-            {address.street && <Circle center={mapCenter} radius={radius} />}
+            {address?.street && <Marker position={address.coordinates} />}
+            {address?.street && (
+              <Circle center={address.coordinates} radius={radius} />
+            )}
           </MapContent>
         </div>
       </CardContent>
     </Card>
   );
 };
-
 export const DateRangePicker = ({ startDate, onStartDateChange, children }) => (
   <Card className="border-none shadow-none">
-    <CardHeader>
-      <CardTitle>Move-in Date</CardTitle>
-    </CardHeader>
     <CardContent className="flex flex-col  gap-4">
       <Label>Preferred Move-in Date</Label>
 
@@ -164,3 +258,4 @@ export const DateRangePicker = ({ startDate, onStartDateChange, children }) => (
     </CardContent>
   </Card>
 );
+

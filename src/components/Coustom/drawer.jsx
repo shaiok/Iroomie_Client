@@ -17,7 +17,7 @@ export function GenericDrawer({
   description,
   children,
   footer,
-  contentClassName = "container",
+  contentClassName = "lg:container",
 }) {
   return (
     <Drawer >
@@ -30,7 +30,7 @@ export function GenericDrawer({
             {title && <DrawerTitle>{title}</DrawerTitle>}
             {description && <DrawerDescription>{description}</DrawerDescription>}
           </DrawerHeader>
-          <div className="p-4 pb-0">
+          <div className="p-2 pb-0">
             {children}
           </div>
           {footer && (

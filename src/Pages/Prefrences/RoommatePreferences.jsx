@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   PreferenceSlider,
-  MultiSelect,
   AddressPreference,
   DateRangePicker,
 } from "./PreferenceComponents";
@@ -10,150 +9,156 @@ import {
   Bed,
   Bath,
   DollarSign,
-  Car,
   CalendarIcon,
   AirVent,
   ArrowUpDown,
   Dog,
   Cigarette,
   Sofa,
+  Car,
+  Ruler,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-
 import { Separator } from "@/components/ui/separator";
 
-const iconMap = [
-  { label: "AC", icon: AirVent },
-  { label: "Parking", icon: Car },
-  { label: "Balcony", icon: ArrowUpDown },
-  { label: "Furnished", icon: Sofa },
-  { label: "Elevator", icon: ArrowUpDown },
-  { label: "Pet Friendly", icon: Dog },
-  { label: "Smoking Allowed", icon: Cigarette },
-];
+const iconMap = {
+  AC: AirVent,
+  Parking: Car,
+  Balcony: ArrowUpDown,
+  Furnished: Sofa,
+  Elevator: ArrowUpDown,
+  "Pet Friendly": Dog,
+  "Smoking Allowed": Cigarette,
+};
 
-export default function ApartmentPreferences({ preferences, setPreferences }) {
+export default function RoommatePreferences({
+  preferences,
+  setPreferences,
+  initialPreferences,
+}) {
+  const updatePreference = (key, newValue) => {
+    setPreferences((prev) => {
+      const keys = key.split(".");
+      const lastKey = keys.pop();
+      let current = prev;
+      for (const k of keys) {
+        current = current[k] = { ...current[k] };
+      }
+      current[lastKey] = newValue;
+      return { ...prev };
+    });
+  };
+
+  const toggleDetail = (detail) => {
+    setPreferences((prev) => ({
+      ...prev,
+      details: {
+        ...prev.details,
+        [detail]: !prev.details[detail],
+      },
+    }));
+  };
+
+  // Merge default preferences with provided preferences
+  const mergedPreferences = { ...initialPreferences, ...preferences };
+
   return (
     <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6 xl:gap-12">
       <div className="flex flex-col gap-6 sm:gap-8">
         <Card className="border-none shadow-none">
-          <CardHeader>
-            <CardTitle>Apartment Preferences</CardTitle>
-          </CardHeader>
           <CardContent className="flex flex-col gap-8">
             <PreferenceSlider
-              label="Rent Range"
+              label="Max Rent"
               extraLabel="₪ /month"
-              value={preferences.rentRange}
+              value={mergedPreferences.overview.rentRange}
               onChange={(newValue) =>
-                setPreferences({ ...preferences, rentRange: newValue })
+                updatePreference("overview.rentRange", newValue)
               }
               min={1000}
               max={10000}
               step={100}
               icon={DollarSign}
             />
-            <div className="grid grid-cols-2 gap-4">
-              <PreferenceSlider
-                label="Bedrooms"
-                value={preferences.bedrooms}
-                onChange={(newValue) =>
-                  setPreferences({ ...preferences, bedrooms: newValue })
-                }
-                min={1}
-                max={5}
-                step={1}
-                icon={Bed}
-              />
-              <PreferenceSlider
-                label="Bathrooms"
-                value={preferences.bathrooms}
-                onChange={(newValue) =>
-                  setPreferences({ ...preferences, bathrooms: newValue })
-                }
-                min={1}
-                max={3}
-                step={1}
-                icon={Bath}
-              />
-            </div>
+            <PreferenceSlider
+              label="Minimum Bedrooms"
+              value={mergedPreferences.overview.bedrooms}
+              onChange={(newValue) =>
+                updatePreference("overview.bedrooms", newValue)
+              }
+              min={1}
+              max={5}
+              step={1}
+              icon={Bed}
+              isMin={true}
+            />
+            <PreferenceSlider
+              label="Minimum Bathrooms"
+              value={mergedPreferences.overview.bathrooms}
+              onChange={(newValue) =>
+                updatePreference("overview.bathrooms", newValue)
+              }
+              min={1}
+              max={5}
+              step={1}
+              icon={Bath}
+              isMin={true}
+            />
             <PreferenceSlider
               label="Minimum Size"
               extraLabel="sqm"
-              value={preferences.minSize}
+              value={mergedPreferences.overview.minSize}
               onChange={(newValue) =>
-                setPreferences({ ...preferences, minSize: newValue })
+                updatePreference("overview.minSize", newValue)
               }
               min={20}
               max={200}
               step={5}
+              icon={Ruler}
+              isMin={true}
             />
-
-            <div className="grid sm:grid-cols-2 grid-cols-1  gap-8">
-              {iconMap.map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  
-                  <Switch
-                    checked={preferences.details[item.label]}
-                    onCheckedChange={(checked) =>
-                      setPreferences({
-                        ...preferences,
-                        details: {
-                          ...preferences.details,
-                          [item.label]: checked,
-                        },
-                      })
-                    }
-                  />
-                  <Label className="flex items-center gap-2">
-                    {React.createElement(item.icon)}
-                    {item.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
           </CardContent>
         </Card>
 
+        <Separator />
 
-        <Separator/>
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
+          {Object.entries(mergedPreferences.details)
+            .filter(([key]) => key !== "enabled")
+            .map(([key, value]) => (
+              <div key={key} className="flex items-center gap-4">
+                <Switch
+                  checked={value}
+                  onCheckedChange={() => toggleDetail(key)}
+                />
+                <Label className="flex items-center gap-2">
+                  {React.createElement(iconMap[key] || "div")}
+                  {key}
+                </Label>
+              </div>
+            ))}
+        </div>
+
+        <Separator />
 
         <DateRangePicker
-          startDate={preferences.moveInDateStart}
-          endDate={preferences.moveInDateEnd}
+          startDate={mergedPreferences.leaseDuration.moveInDateStart}
           onStartDateChange={(date) =>
-            setPreferences({ ...preferences, moveInDateStart: date })
+            updatePreference("leaseDuration.moveInDateStart", date)
           }
-          onEndDateChange={(date) =>
-            setPreferences({ ...preferences, moveInDateEnd: date })
-          }
-        >
-          <PreferenceSlider
-            label="Lease Duration"
-            extraLabel="months"
-            value={preferences.leaseDuration}
-            onChange={(newValue) =>
-              setPreferences({ ...preferences, leaseDuration: newValue })
-            }
-            min={1}
-            max={24}
-            step={1}
-            icon={CalendarIcon}
-          />
-        </DateRangePicker>
+        />
       </div>
 
       <div>
         <div className="sticky top-8">
           <AddressPreference
-            address={preferences.address}
+            address={mergedPreferences.location.address}
             setAddress={(newAddress) =>
-              setPreferences({ ...preferences, address: newAddress })
+              updatePreference("location.address", newAddress)
             }
-            radius={preferences.radius}
+            radius={mergedPreferences.location.radius}
             setRadius={(newRadius) =>
-              setPreferences({ ...preferences, radius: newRadius })
+              updatePreference("location.radius", newRadius)
             }
           />
         </div>

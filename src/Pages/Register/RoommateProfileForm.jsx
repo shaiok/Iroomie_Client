@@ -36,11 +36,8 @@ import {
   movieGenresList,
   sportsList,
 } from "@/lib/RegisterRoommate";
-import { useLocation } from "react-router-dom";
 
-const RoommateProfileForm = ({ onSubmit , initialData = {} }) => {
-  console.log("RoommateProfileForm ",initialData);  
-  
+const RoommateProfileForm = ({ onSubmit , initialData = {} }) => {  
   const [profile, setProfile] = useState({
     personalInfo: {
       name: initialData.personalInfo?.name || "",

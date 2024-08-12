@@ -4,9 +4,8 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/lib/utils";
 
 const Slider = React.forwardRef(
-  ({ className, color = "blue-500", ...props }, ref) => {
+  ({ className, color = "blue-500", isMin ,  ...props }, ref) => {
     const thumbCount = Array.isArray(props.value) ? props.value.length : 1;
-console.log("SliderPrimitive", color)
     return (
       <SliderPrimitive.Root
         ref={ref}
@@ -14,10 +13,12 @@ console.log("SliderPrimitive", color)
         {...props}
       >
         <SliderPrimitive.Track
-          className={`relative h-[0.2rem] w-full grow overflow-hidden rounded-full bg-gray-500`}
+          className={cn(`relative h-[0.2rem] w-full grow overflow-hidden rounded-full`,
+            isMin ? `bg-${color}` : "bg-gray-200",
+          )}
         >
           <SliderPrimitive.Range
-            className={cn("absolute h-full ", "bg-" + color)}
+            className={cn("absolute h-full ", isMin? "bg-gray-200":"bg-" + color)}
           />
         </SliderPrimitive.Track>
         {[...Array(thumbCount)].map((_, index) => (

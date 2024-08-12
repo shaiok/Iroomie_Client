@@ -8,9 +8,10 @@ function LocationCombobox({
     onChange,
   label = "Address",
   placeholder = "Enter an address",
+  initialValue = "",
 }) {
   const [options, setOptions] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(initialValue);
 
   const debouncedFetch = useCallback(
     debounce(async (request) => {

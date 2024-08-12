@@ -8,7 +8,7 @@ function InputWithLabel({ id, label, icon, placeholder, type ,  ...props }) {
         {icon && icon}
         <Label htmlFor={id}>{label}</Label>
       </div>
-      <Input type={type} id={id} placeholder={placeholder} {...props} />
+      <Input type={type} id={id} placeholder={placeholder} {...props}  />
     </div>
   );
 }

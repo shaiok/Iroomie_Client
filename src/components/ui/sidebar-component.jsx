@@ -75,12 +75,12 @@ export const MobileSidebar = ({ className, children, ...props }) => {
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row xl:hidden items-center justify-between bg-neutral-100 w-full "
+          "h-20 px-4 py-4 flex flex-row xl:hidden items-baseline justify-between bg-neutral-100 w-full "
         )}
         {...props}
       >
-        <div className="flex justify-between items-center z-20 w-full">
-          <IroomieLogo className="h-8" />
+        <div className="flex justify-between items-center z-20 w-full ">
+          <IroomieLogo logo={false}  />
           {open && <IconX onClick={() => setOpen(!open)} />}
           {!open && <IconMenu2 onClick={() => setOpen(!open)} />}
 

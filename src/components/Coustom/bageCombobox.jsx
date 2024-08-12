@@ -15,10 +15,10 @@ function CategorizedBadgeSelect({
   options,
   placeholder = "Select options...",
   onChange,
-  initialSelected = [],
+  value = [],
 }) {
   const [open, setOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState(initialSelected);
+  const [selectedOptions, setSelectedOptions] = useState(value);
   const [popoverWidth, setPopoverWidth] = useState(0);
   const [showToast, setShowToast] = useState(false);
   const buttonRef = useRef(null);

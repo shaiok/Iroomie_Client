@@ -1,9 +1,8 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import {
-  PreferenceSlider,
+  RangeSlider,
   MultiSelect,
-  DateRangePicker,
+
 } from "./PreferenceComponents";
 import {
   Users,
@@ -11,19 +10,17 @@ import {
   Music,
   Film,
   Gamepad2,
-  Cigarette,
-  Dog,
-  Book,
-  Utensils,
-  Plane,
   GraduationCap,
   Clock,
   Laptop,
   Shield,
+  Book,
+  Utensils,
 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const occupationOptions = [
-  { value: "Solider", label: "Soldier", icon: Shield },
+  { value: "Soldier", label: "Soldier", icon: Shield },
   { value: "Student", label: "Student", icon: GraduationCap },
   { value: "Part-Time", label: "Part-Time Worker", icon: Clock },
   { value: "Full-Time", label: "Full-Time Employee", icon: Briefcase },
@@ -36,64 +33,57 @@ const interestOptions = [
   { value: "Sports", label: "Sports", icon: Gamepad2 },
   { value: "Reading", label: "Reading", icon: Book },
   { value: "Cooking", label: "Cooking", icon: Utensils },
-
 ];
 
 export default function ApartmentPreferences({ preferences, setPreferences }) {
-  return (
-    <Card className="border-none shadow-none ">
-      <CardHeader>
-        <CardTitle>Roommate Preferences</CardTitle>
-      </CardHeader>
-      <CardContent className="grid lg:grid-cols-2 grid-cols-1 gap-6 lg:gap-16">
-        <div className="flex flex-col lg:gap-16 gap-8">
-          <PreferenceSlider
-            label="Age Range"
-            value={preferences.ageRange}
-            onChange={(newValue) =>
-              setPreferences({ ...preferences, ageRange: newValue })
-            }
-            min={18}
-            max={60}
-            step={1}
-            icon={Users}
-            isRange={true}
-          />
-          <MultiSelect
-            label="Gender Preference"
-            single={true}
-            options={[
-              { value: "All", label: "All", icon: Users },
-              { value: "Male", label: "Male", icon: Users },
-              { value: "Female", label: "Female", icon: Users },
-              { value: "Non-binary", label: "Non-binary", icon: Users },
-            ]}
-            selected={preferences.genderPreference}
-            onChange={(newValue) =>
-              setPreferences({ ...preferences, genderPreference: newValue })
-            }
-          />
-        </div>
+  const updatePreference = (key, newValue) => {
+    setPreferences((prev) => ({ ...prev, [key]: newValue }));
+  };
 
-        <div className="flex flex-col lg:gap-16 gap-8 ">
-          <MultiSelect
-            label="Preferred Occupations"
-            options={occupationOptions}
-            selected={preferences.occupations}
-            onChange={(newValue) =>
-              setPreferences({ ...preferences, occupations: newValue })
-            }
-          />
-          <MultiSelect
-            label="Shared Interests"
-            options={interestOptions}
-            selected={preferences.sharedInterests}
-            onChange={(newValue) =>
-              setPreferences({ ...preferences, sharedInterests: newValue })
-            }
-          />
-        </div>
-      </CardContent>
-    </Card>
+  return (
+    <div className="lg:container">
+      <div className="flex flex-col gap-6 sm:gap-8">
+        <RangeSlider
+          label="Age Range"
+          value={preferences.ageRange}
+          onChange={(newValue) => updatePreference("ageRange", newValue)}
+          min={18}
+          max={60}
+          step={1}
+          icon={Users}
+        />
+
+        <Separator />
+
+        <MultiSelect
+          label="Gender Preference"
+          options={[
+            { value: "Male", label: "Male", icon: Users },
+            { value: "Female", label: "Female", icon: Users },
+            { value: "NonBinary", label: "Non-binary", icon: Users },
+          ]}
+          value={preferences.gender}
+          onChange={(newValue) => updatePreference("gender", newValue)}
+        />
+
+        <Separator />
+
+        <MultiSelect
+          label="Preferred Occupations"
+          options={occupationOptions}
+          value={preferences.occupations}
+          onChange={(newValue) => updatePreference("occupations", newValue)}
+        />
+
+        <Separator />
+
+        <MultiSelect
+          label="Shared Interests"
+          options={interestOptions}
+          value={preferences.sharedInterests}
+          onChange={(newValue) => updatePreference("sharedInterests", newValue)}
+        />
+      </div>
+    </div>
   );
 }

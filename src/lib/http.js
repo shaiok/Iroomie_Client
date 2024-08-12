@@ -1,13 +1,11 @@
-import { current } from "tailwindcss/colors";
-
 const BASE_URL = "http://localhost:3001";
 
 async function apiCall(endpoint, method = "GET", data = null, signal = null) {
   const url = `${BASE_URL}${endpoint}`;
-  
+
   const options = {
     method,
-    credentials: 'include',
+    credentials: "include",
     signal,
   };
 
@@ -34,6 +32,8 @@ async function apiCall(endpoint, method = "GET", data = null, signal = null) {
 }
 
 export const auth = {
+  testRoommate: () => apiCall("/auth/testRoommate"),
+  testApartment: () => apiCall("/auth/testApartment"),
   initiateGoogleAuth: () => {
     window.location.href = `${BASE_URL}/auth/google`;
   },
@@ -46,24 +46,39 @@ export const auth = {
 };
 
 // User functions
+export const users = {
+  suggestions: () => apiCall(`/users/suggestions`),
+  matches: () => apiCall(`/users/matches`),
+  activity: () => apiCall(`/users/activity`),
+
+  update: (data) => apiCall(`/users/update`, "PUT", data),
+  preferences: (preferences) =>
+    apiCall(`/users/preferences`, "PUT", preferences),
+  action: ({ id, action }) => {
+    return apiCall(`/users/action/${id}/?action=${action}`, "PUT");
+  },
+};
+// User functions
 export const roommates = {
   getAll: () => apiCall(`/roommates`),
-  get: (roommateId, signal) => apiCall(`/roommates/${roommateId}`, "GET", null, signal),
-  update: (roommateId, roommateData) => apiCall(`/roommates/${roommateId}`, "PUT", roommateData),
-  setPreferences: (updatedPreferences) => apiCall(`/roommates/set-preferences`, "PUT", updatedPreferences),
-  delete: (roommateId) => apiCall(`/roommates/${roommateId}`, "DELETE"),
-  getSuggestions: (roommateId, signal) =>
-    apiCall(`/roommates/${roommateId}/suggestions`, "GET", null, signal),
-  
-  setAction : (apartmentId, action) => apiCall(`/roommates/set-action/${apartmentId}/?action=${action}`, "PUT"),
-
+  update: (roommateData) =>
+    apiCall(`/roommates/update-roommate`, "PUT", roommateData),
+  setPreferences: (updatedPreferences) =>
+    apiCall(`/roommates/set-preferences`, "PUT", updatedPreferences),
+  setAction: (apartmentId, action) =>
+    apiCall(`/roommates/set-action/${apartmentId}/?action=${action}`, "PUT"),
+  getMetaches: () => apiCall(`/roommates/getMatches`),
 };
 
 // Apartment functions
 export const apartments = {
   getAll: () => apiCall(`/apartments`),
-  setPreferences: (updatedPreferences) => apiCall(`/apartments/set-preferences`, "PUT", updatedPreferences),
-  setAction : (roommateId, action) => apiCall(`/apartments/set-action/${roommateId}/?action=${action}`, "PUT"),
+  setPreferences: (updatedPreferences) =>
+    apiCall(`/apartments/set-preferences`, "PUT", updatedPreferences),
+  setAction: (roommateId, action) =>
+    apiCall(`/apartments/set-action/${roommateId}/?action=${action}`, "PUT"),
+  update: (apartmentData) =>
+    apiCall(`/apartments/update-apartment`, "PUT", apartmentData),
   delete: (apartmentId) => apiCall(`/apartments/${apartmentId}`, "DELETE"),
- 
+  getMetaches: () => apiCall(`/roommates/getMatches`),
 };
