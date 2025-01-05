@@ -64,3 +64,33 @@ iroomie/
 ├── postcss.config.js  # PostCSS configuration
 ├── package.json       # Project dependencies
 └── README.md          # Project documentation
+
+
+### **Setup Instructions**
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/iRoommie.git
+   cd iRoommie
+Install dependencies for both frontend and backend:
+
+
+## **Setup Instructions**
+
+### **1. Clone the repository**
+
+```bash
+git clone https://github.com/your-username/iRoommie.git
+tsc
+npm run dev 
+
+
+Screenshots
+
+![Screenshot 2025-01-05 143840](https://github.com/user-attachments/assets/4edb2983-e6da-40eb-9399-34a139a9c144)
+![Screenshot 2025-01-05 143828](https://github.com/user-attachments/assets/8ae3f5a3-df46-4141-bdce-1ecd07cce04d)
+![Screenshot 2025-01-05 143853](https://github.com/user-attachments/assets/b4f37498-1f7f-43c8-8290-d9f2d270cff3)
+![Screenshot 2025-01-05 143847](https://github.com/user-attachments/assets/5c174fd0-000c-4986-bb54-83fa440ce1f0)
+
+
