@@ -65,6 +65,7 @@ iroomie/
 ├── package.json       # Project dependencies
 └── README.md          # Project documentation
 
+---
 
 ### **Setup Instructions**
 
@@ -85,6 +86,7 @@ git clone https://github.com/your-username/iRoommie.git
 tsc
 npm run dev 
 
+---
 
 Screenshots
 
