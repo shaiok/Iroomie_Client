@@ -39,6 +39,33 @@ The project is designed as a **full-stack application** with a client-server arc
 - **Backend**: Node.js + Express.js for handling API requests.
 - **Database**: MongoDB for storing user and application data.
 
+
+Screenshots
+
+![Screenshot 2025-01-05 143828](https://github.com/user-attachments/assets/8faa8003-bc5e-4d03-b366-598b9e69610e)
+
+
+![Screenshot 2025-01-05 143840](https://github.com/user-attachments/assets/070caf91-050d-4c3d-bce5-3140299c71d4)
+
+![Screenshot 2025-01-05 143847](https://github.com/user-attachments/assets/deded95c-f6da-4b02-9cb1-4eebe3c7a953)
+
+![Screenshot 2025-01-05 143853](https://github.com/user-attachments/assets/61f730b0-da2b-4f97-a75a-564b82a2c069)
+
+
+## **Setup Instructions front end **
+
+### **1. Clone the repository**
+
+```bash
+git clone https://github.com/your-username/iRoommie.git
+tsc
+npm run dev 
+
+---
+
+
+
+
 ### **Folder Structure**
 
 ```plaintext
@@ -66,38 +93,6 @@ iroomie/
 └── README.md          # Project documentation
 
 ---
-
-### **Setup Instructions**
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-username/iRoommie.git
-   cd iRoommie
-Install dependencies for both frontend and backend:
-
-
-## **Setup Instructions**
-
-### **1. Clone the repository**
-
-```bash
-git clone https://github.com/your-username/iRoommie.git
-tsc
-npm run dev 
-
----
-
-Screenshots
-
-![Screenshot 2025-01-05 143828](https://github.com/user-attachments/assets/8faa8003-bc5e-4d03-b366-598b9e69610e)
-
-
-![Screenshot 2025-01-05 143840](https://github.com/user-attachments/assets/070caf91-050d-4c3d-bce5-3140299c71d4)
-
-![Screenshot 2025-01-05 143847](https://github.com/user-attachments/assets/deded95c-f6da-4b02-9cb1-4eebe3c7a953)
-
-![Screenshot 2025-01-05 143853](https://github.com/user-attachments/assets/61f730b0-da2b-4f97-a75a-564b82a2c069)
 
 
 
